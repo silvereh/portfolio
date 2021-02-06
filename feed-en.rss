@@ -23,7 +23,8 @@ layout: null
 						{%- endif -%}
 					{%- endfor -%}
 				</categories>
-				<description>{{ post.excerpt | strip | strip_html | strip_newlines | truncatewords: 30 }}</description>
+				<description>{{ post.summary }}</description>
+				<thumbnail>{{ post.thumbnail }}</thumbnail>
 				<link>{{ post.url }}</link>
 				<guid isPermaLink="true">{{ site.url }}{{ post.url }}</guid>
 				<pubDate>{{ post.date | date_to_rfc822 }}</pubDate>
