@@ -24,7 +24,7 @@ layout: null
 					{%- endfor -%}
 				</categories>
 				<description>{{ post.summary }}</description>
-				<thumbnail>{{ post.thumbnail }}</thumbnail>
+				<thumbnail>{{ post.thumbnail | prepend: site.url }}</thumbnail>
 				<link>{{ post.url }}</link>
 				<guid isPermaLink="true">{{ site.url }}{{ post.url }}</guid>
 				<pubDate>{{ post.date | date_to_rfc822 }}</pubDate>
