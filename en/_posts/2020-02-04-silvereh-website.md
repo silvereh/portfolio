@@ -3,7 +3,7 @@ title: Silvereh.github.io
 tags: [CSS, EcmaScript 6, Github, HTML, JavaScript, jekyll, Liquid, Markdown, React, SCSS]
 lang: en
 categories: [en]
-summary: I spent around 3 weeks focusing on the development of my personal website so I could have both a way to show off my work and be contacted. This website is deployed via Github Pages. As such, it doesn't contain any back-end technology.
+summary: I spent around 3 weeks focusing on the development of my personal website so I could have both a way to show off my work and be contacted. This website is deployed via Github Pages, as such, it doesn't contain any back-end technology.
 thumbnail: /assets/img/silvereh_website_thumb.png
 ---
 ## Context
@@ -14,13 +14,13 @@ So in order to fill this need, I gave myself a grand total of 3 weeks to design 
 
 ## Processus
 
-I started by spending the first couple of days thinking about what I wanted to show on this site and what portions I needed. I then set a schedule of the tasks necessary to the realisation. These tasks are easily summarized as **design**, **development**, and **deployment**.
+I started by spending the first couple of days thinking about what I wanted to show on this site and what portions I needed. I then set a schedule of the tasks necessary to the realization. These tasks are easily summarized as **design**, **development**, and **deployment**.
 
 Next, I divided those tasks in smaller, more manageable parts. For example, the **design** task can be further divided into *logo*, *home page*, *blog section*, *portfolio section*, and *contact page*.
 
 The next step was to design the website. I started by developing the logo with a free alternative to Photoshop as I can't afford to buy an Adobe license. Then I worked on the site design on the same software.
 
-About midway through the design phase, I started the development of the elements I had already planned by chosing which technology to employ. I separated this site in 3 distinct portions, each with its own little difference. The main portion is developed with React while the blog and portfolio sections are developed with jekyll.
+About midway through the design phase, I started the development of the elements I had already planned by choosing which technology to employ. I separated this site in 3 distinct portions, each with its own little difference. The main portion is developed with React while the blog and portfolio sections are developed with jekyll.
 
 Starting earlier allowed me to give an initial testing to the pieces I had already designed, especially the navigation. That's when I realized that it was boring and needed to change. I decided to do some research on other developer's websites to find some inspiration.
 
@@ -28,4 +28,4 @@ After that research, I redesigned the navigation and returned to the development
 
 ## What I learned
 
-This project was very edifying on a design standpoint. So far, in most projects I've worked on, I had the design provided for me or at least parts of it, like a color identity an such... For this project, I had to determine all of this in order to build my personal brand. It forced me to think about the impression I wanted my site to give and how to accomodate it. Overall, I'm quite satisfied with the result.
+This project was very edifying on a design standpoint. So far, in most projects I've worked on, I had the design provided for me or at least parts of it, like a color identity an such... For this project, I had to determine all of this in order to build my personal brand. It forced me to think about the impression I wanted my site to give and how to accommodate it. Overall, I'm quite satisfied with the result.
