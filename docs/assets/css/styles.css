@@ -1,0 +1,65 @@
+@charset "UTF-8";
+@import url(https://fonts.googleapis.com/css2?family=Roboto&family=Roboto+Condensed:wght@700&display=swap);
+body { background-color: #ffffff; margin: 0; font-family: 'Roboto', sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-size: 18px; }
+
+code { font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace; }
+
+section { min-height: 98vh; }
+section:last-of-type { margin-bottom: 75px; }
+@media (min-width: 768px) { section:last-of-type { margin-bottom: 15px; } }
+
+h1, h2, h3 { color: #a47a10; }
+
+@media (max-width: 767.98px) { .hidden-xs { display: none; } }
+
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+.highlighter-rouge pre { padding: 10px; }
+
+.post-meta { font-style: italic; font-size: 90%; }
+
+@font-face { font-family: "icomoon"; src: url("/assets/fonts/icomoon.ttf?gnxgkr") format("truetype"), url("/assets/fonts/icomoon.woff?gnxgkr") format("woff"), url("/assets/fonts/icomoon.svg?gnxgkr#icomoon") format("svg"); font-weight: normal; font-style: normal; font-display: block; }
+[class^="icon-"], [class*=" icon-"] { /* use !important to prevent issues with browser extensions that change fonts */ font-family: "icomoon" !important; speak: never; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+.icon-about:before { content: ""; }
+
+.icon-blog:before { content: ""; }
+
+.icon-contact:before { content: ""; }
+
+.icon-github:before { content: ""; }
+
+.icon-home:before { content: ""; }
+
+.icon-linkedin:before { content: ""; }
+
+.icon-logo:before { content: ""; }
+
+.icon-portfolio:before { content: ""; }
+
+.icon-resume:before { content: ""; }
+
+.icon-send:before { content: ""; }
+
+.App-links { display: none; }
+.App-nav { position: fixed; left: 0; bottom: 0; right: 0; height: 60px; margin: 0; padding: 5px; background-color: #252525; color: #a47a10; z-index: 10; display: grid; grid-template-columns: [start home-start] 1fr [home-end about-start] 1fr [about-end portfolio-start] 1fr [portfolio-end blog-start] 1fr [blog-end contact-start] 1fr [contact-end end]; grid-template-rows: auto; grid-template-areas: "home about portfolio blog contact"; justify-items: center; }
+.App-logo { display: block; margin: auto; width: 70px; grid-area: logo; font-size: 56px; text-decoration: none; text-align: center; }
+.App-logo [class^="icon-"], .App-logo [class*=" icon-"] { color: #a47a10; }
+.App-icon { display: block; margin: auto; width: 50px; height: 50px; font-size: 36px; text-decoration: none; text-align: center; }
+.App-icon [class^="icon-"], .App-icon [class*=" icon-"] { color: #a47a10; }
+.App-icon:hover, .App-icon:focus, .App-icon.active, .App-icon:active { font-size: 46px; }
+.App-icon:hover [class^="icon-"], .App-icon:hover [class*=" icon-"], .App-icon:focus [class^="icon-"], .App-icon:focus [class*=" icon-"], .App-icon.active [class^="icon-"], .App-icon.active [class*=" icon-"], .App-icon:active [class^="icon-"], .App-icon:active [class*=" icon-"] { color: #80efef; }
+.App-home { grid-area: home; }
+.App-about { grid-area: about; }
+.App-portfolio { grid-area: portfolio; }
+.App-blog { grid-area: blog; }
+.App-contact { grid-area: contact; }
+.App-github { grid-area: github; }
+.App-linkedin { grid-area: linkedin; }
+.App-content { padding: 15px; }
+
+@media (min-width: 576px) { .App-header { position: fixed; left: 0; top: 0; bottom: 0; width: 100px; background-color: #252525; color: #a47a10; z-index: 10; display: grid; grid-template-rows: [start logo-start] 80px [logo-end] 1fr [home-start] 60px [home-end about-start] 60px [about-end portfolio-start] 60px [portfolio-end blog-start] 60px [blog-end contact-start] 60px [contact-end] 1fr [github-start] 60px [github-end linkedin-start] 60px [linkedin-end end]; grid-template-columns: auto; grid-template-areas: "logo" "." "home" "about" "portfolio" "blog" "contact" "." "github" "linkedin"; justify-items: center; }
+  .App-links, .App-nav { display: contents; }
+  .App-content { margin-left: 100px; }
+  .App-icon svg { height: 70%; padding: 15%; width: 70%; }
+  .App-icon:hover svg, .App-icon:focus svg, .App-icon.active svg, .App-icon:active svg { height: 100%; padding: 0; width: 100%; } }

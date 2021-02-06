@@ -1,0 +1,37 @@
+linksets:
+  - classname: "App-links"
+    links:
+      - title: "Home"
+        url: https://silvereh.github.io/
+        icon: icon-logo
+        linkclass: "App-logo"
+      - title: "Github"
+        url: https://www.github.com/silvereh
+        icon: icon-github
+        linkclass: "App-icon App-github"
+      - title: "LinkedIn"
+        url: https://www.linkedin.com/in/sheraudeau
+        icon: icon-linkedin
+        linkclass: "App-icon App-linkedin"
+  - classname: "App-nav"
+    links:
+      - title: "Home"
+        url: https://silvereh.github.io/
+        icon: icon-home
+        linkclass: "App-icon App-home"
+      - title: "About"
+        url: https://silvereh.github.io/#about
+        icon: icon-about
+        linkclass: "App-icon App-about"
+      - title: "Portfolio"
+        url: https://silvereh.github.io/#portfolio
+        icon: icon-portfolio
+        linkclass: "App-icon App-portfolio active"
+      - title: "Blog"
+        url: https://silvereh.github.io/#blog
+        icon: icon-blog
+        linkclass: "App-icon App-blog"
+      - title: "Contact"
+        url: https://silvereh.github.io/#contact
+        icon: icon-contact
+        linkclass: "App-icon App-contact"

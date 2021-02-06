@@ -1,0 +1,13 @@
+<header class="App-header">
+	{%- for item in site.data.navigation.linksets -%}
+		<nav class="{{ item.classname }}">
+			{%- for link in item.links -%}
+				<a class="{{ link.linkclass }}" href="{{ link.url }}" title="{{ link.title }}">
+					<span class="{{ link.icon }}">
+						<span class="sr-only">{{ link.title }}</span>
+					</span>
+				</a>
+			{%- endfor -%}
+		</nav>
+	{%- endfor -%}
+</header>

@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="fr"><head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="author" content="Silvere Heraudeau">
+	<title>
+    Silvere Heraudeau- Automatisez Votre Développement Web Avec Gulp</title>
+  <meta name="description" content="Gulp est un outil permettant d’automatiser les tâches de développement répétitives comme compiler le code source, minimiser le code produit, générer un proje...">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-v4-grid-only@1.0.0/dist/bootstrap-grid.min.css">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="/assets/css/syntax.css" type="text/css" />
+  
+  <link rel="canonical" href="http://localhost:4000/fr/posts/streamline-your-web-development-with-gulp/"><link rel="alternate" hreflang="en" href="http://localhost:4000/en/posts/streamline-your-web-development-with-gulp/" /><link rel="alternate" hreflang="fr" href="http://localhost:4000/fr/posts/streamline-your-web-development-with-gulp/" /></head>
+<body><header class="App-header"><nav class="App-links"><a class="App-logo" href="https://silvereh.github.io/" title="Home">
+					<span class="icon-logo">
+						<span class="sr-only">Home</span>
+					</span>
+				</a><a class="App-icon App-github" href="https://www.github.com/silvereh" title="Github">
+					<span class="icon-github">
+						<span class="sr-only">Github</span>
+					</span>
+				</a><a class="App-icon App-linkedin" href="https://www.linkedin.com/in/sheraudeau" title="LinkedIn">
+					<span class="icon-linkedin">
+						<span class="sr-only">LinkedIn</span>
+					</span>
+				</a></nav><nav class="App-nav"><a class="App-icon App-home" href="https://silvereh.github.io/" title="Home">
+					<span class="icon-home">
+						<span class="sr-only">Home</span>
+					</span>
+				</a><a class="App-icon App-about" href="https://silvereh.github.io/#about" title="About">
+					<span class="icon-about">
+						<span class="sr-only">About</span>
+					</span>
+				</a><a class="App-icon App-portfolio" href="https://silvereh.github.io/#portfolio" title="Portfolio">
+					<span class="icon-portfolio">
+						<span class="sr-only">Portfolio</span>
+					</span>
+				</a><a class="App-icon App-blog active" href="https://silvereh.github.io/#blog" title="Blog">
+					<span class="icon-blog">
+						<span class="sr-only">Blog</span>
+					</span>
+				</a><a class="App-icon App-contact" href="https://silvereh.github.io/#contact" title="Contact">
+					<span class="icon-contact">
+						<span class="sr-only">Contact</span>
+					</span>
+				</a></nav></header><main class="container">
+			<article itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 itemprop="name headline">Automatisez Votre Développement Web Avec Gulp</h1>
+	<p class="post-meta">
+		<time datetime="2020-02-04T00:00:00-07:00" itemprop="datePublished">04 Feb 2020</time>
+		 - 
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span itemprop="name">Silvere Heraudeau</span>
+		</span>
+	</p>
+
+	<div itemprop="articleBody">
+		<p><a href="https://gulpjs.com/" title="Site officiel de Gulp">Gulp</a> est un outil permettant d’automatiser les tâches de développement répétitives comme compiler le code source, minimiser le code produit, générer un projet, etc …</p>
+
+<h2 id="pourquoi-gulp">Pourquoi Gulp?</h2>
+
+<p>Il y a quelques années, j’ai travaillé sur un projet construit avec Grunt et, au départ, je pensais pouvoir m’en resservir. Malheureusement, je n’ai pas réussi à trouver un moyen de le faire fonctionner pour moi. Je pense que je n’ai pas réussi à trouver un tutoriel suffisamment clair sur comment installer et configurer Grunt. Je savais également gue Gulp pourrait m’aider à réaliser le même objectif donc j’ai essayé de voir si je pouvais trouver bon tutoriel. Le premier résultat de ma recherche Google était <a href="https://css-tricks.com/gulp-for-beginners/" title="Article de CSS-Trick pour débuter avec Gulp">un tutoriel sur CSS-Trick</a>, et c’était juste ce dont j’avais besoin. Je me suis aussi servi de <a href="https://levelup.gitconnected.com/how-to-setup-your-workflow-using-gulp-v4-0-0-5450e3d7c512" title="Article de GitConnected sur configurer un processus de travail avec Gulp">cet autre tutoriel sur GitConnected</a>, mais il n’est pas très explicite. C’est pourquoi j’ai décidé d’écrire cet article.</p>
+
+<h2 id="le-processus">Le processus</h2>
+
+<h3 id="étape-1-installer-gulp-et-les-dépendences">Étape 1: Installer Gulp et les dépendences</h3>
+
+<p>La première étape est bien sur d’installer Gulp via npm à la ligne de commande. Si node et npm ne sont pas installés sur votre ordinateur, vous pouvez les télécharger <a href="https://docs.npmjs.com/downloading-and-installing-node-js-and-npm" title="Documentation de NPM sur comment installer npm">ici</a>.</p>
+
+<pre><code class="language-txt">  npm install -g gulp
+</code></pre>
+
+<p>Pour les utilisateurs de Mac, n’oubliez pas d’éxécuter cette commande avec sudo car un utilisateur ordinaire n’aura pas les permissions requises pour une installation globale. Vous pouvez aussi l’installer localement, uniquement pour votre session utilisateur en ommettant simplement le paramètre <code class="language-plaintext highlighter-rouge">-g</code>.</p>
+
+<h3 id="étape-2-initialiser-le-projet">Étape 2: Initialiser le projet</h3>
+
+<p>Une fois Gulp installé, nous sommes prêts à commencer. Nous pouvons maintenant créer un répertoire pour notre projet et naviguer dedans à la ligne de commande. Une fois dedans, nous pouvons initialiser npm, ce qui va nous crér un fichier package.json pour représenter les configurations de notre répertoire.</p>
+
+<p>Remarque : désormais, il n’est plus nécessaire pour les utilisateurs de Mac de lancer les commandes en mode sudo, les étapes suivantes ne sont pertinentes que pour notre projet.</p>
+
+<pre><code class="language-txt">  npm init
+</code></pre>
+
+<p>Durant le processus d’initialisation, npm vous posera plusieurs questions dans le but d’établir le fichier package.json. Vous pouvez toujours éditer ce fichier manuellement plus tard.</p>
+
+<p>Vous pouvez aussi exécuter <code class="language-plaintext highlighter-rouge">npm init</code> avec l’option <code class="language-plaintext highlighter-rouge">-y</code> et ces questions seront ignorées, utilisant ainsi les configurations par défaut.</p>
+
+<p>Le fichier package.json devrait ressembler à cela:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"[Le nom de votre projet]"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.0.0"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"[La description de votre projet]"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"main"</span><span class="p">:</span><span class="w"> </span><span class="s2">"index.js"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"scripts"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"test"</span><span class="p">:</span><span class="w"> </span><span class="s2">"echo </span><span class="se">\"</span><span class="s2">Error: no test specified</span><span class="se">\"</span><span class="s2"> &amp;&amp; exit 1"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"author"</span><span class="p">:</span><span class="w"> </span><span class="s2">"[Votre nom]"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"license"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ISC"</span><span class="p">,</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="étape-3-installer-gulp-dans-le-projet">Étape 3: Installer Gulp dans le projet</h3>
+
+<p>Une fois notre projet correctement initialisé, nous pouvons y installer Gulp, ce qui nous permettra d’automatiser les tâches les plus répétitives. À cette étape, nous allons installer Gulp ainsi que les autres plugins dont nous allons avoir besoin pour notre projet.</p>
+
+<pre><code class="language-txt">  npm install --save-dev gulp gulp-sass gulp-sourcemaps browser-sync gulp-useref gulp-postcss uncss postcss-uncss cssnano gulp-uglify del
+</code></pre>
+
+<p>Remarque : si vous développez votre projet avec less plutôt que sass, vous aurez besoin d’installer <a href="https://www.npmjs.com/package/gulp-less" title="Informations officielles sur le paquet gulp-less de NPM"><code class="language-plaintext highlighter-rouge">gulp-less</code></a> au lieu de <a href="https://www.npmjs.com/package/gulp-sass" title="Informations officielles sur le paquet gulp-sass de NPM"><code class="language-plaintext highlighter-rouge">gulp-sass</code></a>. Si c’est votre cas, remplacez simplement les références comme il conviendra tout au long de ce tutoriel.</p>
+
+<p>L’option <code class="language-plaintext highlighter-rouge">--save-dev</code> informe npm que le package installé est requis pour le projet, mais uniquement pour le développement. Cela signifie que le package n’est pas requis lors du déploiement.</p>
+
+<h3 id="étape-4-définir-la-structure-du-projet">Étape 4: Définir la structure du projet</h3>
+
+<p>Gulp est relativement flexible et s’adaptera à n’importe quelle structure de projet, cela ne signifie pas pour autant que nous devons laisser la structure être une proie à tous nos caprices. Il est toujours préférable de définir une structure à l’avance afin de savoir où placer quels fichiers.</p>
+
+<p>Pour ce tutoriel, nous utiliserons la structure suivante, une organisation relativement courante pour une application web.</p>
+
+<pre><code class="language-txt">  |- dist/
+  |- gulpfile.js
+  |- node_modules/
+  |- package.json
+  |- src/
+      |- assets/
+      |- css/
+      |- index.html
+      |- js/
+      |- scss/
+</code></pre>
+
+<p>Le répertoire dist (abréviation de distribution) contiendra les fichiers optimisés pour le déploiement, alors que le répertoire src (abréviation de source) contiendra les fichiers de développement, plus lisibles, mais plus lourds. Vous aurez probablement remarqué le fichier gulpfile.js, ce fichier contiendra notre configuration pour Gulp. Il est possible de le compartimenter à volonté, mais il est absolument nécessaire et ne peut pas être nommé différemment.</p>
+
+<h3 id="étape-5-développer-les-tâches-de-gulp">Étape 5: Développer les tâches de Gulp</h3>
+
+<p>Pour pouvoir utiliser Gulp, nous devons inclure le package dans notre gulpfile.js, sans cela, le compilateur ne sera pas capable de comprendre ce qu’est gulp.</p>
+
+<p>Remarque : j’utilise <a href="https://www.w3schools.com/js/js_es6.asp" title="Article de W3Schools sur ECMAScript 6">la notation ECMAScript 6</a> dans ce tutoriel car elle est plus structurée, mais la notation JavaScript standard fonctionnera tout aussi bien.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kd">let</span> <span class="nx">gulp</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">gulp</span><span class="dl">'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Cette déclaration indique à Node de chercher le package gulp dans node_modules, et de l’importer dans une variable afin de pouvoir l’utiliser dans le projet.</p>
+
+<p>Nous pouvons écrire une tâche gulp de 2 façons:</p>
+
+<ol>
+  <li>
+    <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="dl">'</span><span class="s1">task-name</span><span class="dl">'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+<span class="k">return</span> <span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">(</span><span class="dl">'</span><span class="s1">path/to/src</span><span class="dl">'</span><span class="p">)</span>              <span class="c1">// get source files ...</span>
+  <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulpPlugin</span><span class="p">())</span>                       <span class="c1">// ... process them with divers plugins ...</span>
+  <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="dl">'</span><span class="s1">path/to/destination</span><span class="dl">'</span><span class="p">));</span>  <span class="c1">// ... and save them in the destination folder.</span>
+  <span class="p">});</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kd">let</span> <span class="nx">taskName</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+<span class="k">return</span> <span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">(</span><span class="dl">'</span><span class="s1">path/to/src</span><span class="dl">'</span><span class="p">)</span>              <span class="c1">// get source files ...</span>
+  <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulpPlugin</span><span class="p">())</span>                       <span class="c1">// ... process them with divers plugins ...</span>
+  <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="dl">'</span><span class="s1">path/to/destination</span><span class="dl">'</span><span class="p">));</span>  <span class="c1">// ... and save them in the destination folder.</span>
+  <span class="p">}</span>
+  <span class="nx">exports</span><span class="p">.</span><span class="nx">taskName</span> <span class="o">=</span> <span class="nx">taskName</span><span class="p">;</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>La deuxième méthode a l’avantage de nous permettre de décider quelles tâches nous voulons exposer. Si nous voulons qu’une tâche reste interne au processus de Gulp, il suffit d’ommettre l’instruction <code class="language-plaintext highlighter-rouge">export</code>.</p>
+
+<h4 id="pré-traitement-du-css">Pré-traitement du CSS</h4>
+
+<p>Une des premières raisons d’utiliser Gulp (at autres outils simiolaires comme Grunt) est l’automatisation du pré-traitement des fichiers sass et less.</p>
+
+<p>Une fois notre plugin installé, il nous suffit de l’importer dans le projet et de l’assigner à une variable avec l’instruction <code class="language-plaintext highlighter-rouge">require</code>.</p>
+
+<p>Il nous suffit alors de l’insérer dans la tâche à l’aide de <code class="language-plaintext highlighter-rouge">.pipe()</code>.</p>
+
+<p>Vous devriez avoir quelque chose comme cela dans votre gulpfile.js.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kd">let</span> <span class="nx">sass</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">gulp-sass</span><span class="dl">'</span><span class="p">);</span>
+
+  <span class="kd">let</span> <span class="nx">style</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">(</span><span class="dl">'</span><span class="s1">src/scss/main.scss</span><span class="dl">'</span><span class="p">)</span>   <span class="c1">// get scss source files ...</span>
+      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">sass</span><span class="p">())</span>                         <span class="c1">// ... process them with gulp-sass plugin ...</span>
+      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="dl">'</span><span class="s1">src/css</span><span class="dl">'</span><span class="p">));</span>          <span class="c1">// ... and save the css result in the destination folder.</span>
+  <span class="p">};</span>
+
+  <span class="nx">exports</span><span class="p">.</span><span class="nx">style</span> <span class="o">=</span> <span class="nx">style</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>Pour s’assurer que cela fonctionne comme prévu, nous pouvons simplement insérer un fonction sass dans notre fichier main.scss, exécuter la commande <code class="language-plaintext highlighter-rouge">gulp style</code>, et nous pourrons voir apparaitre un fichier main.css, qui contiendra la (ou les) classe(s) définie(s) dans notre main.scss, dans notre dossier src/css.</p>
+
+<h4 id="globbing">Globbing</h4>
+
+<p><a href="https://gulpjs.com/docs/en/getting-started/explaining-globs" title="Documentation de Gulp sur les globs">Les globs</a> sont un concept très proche des expressions rationnelles, avec la particularité d’être conçus spécifiquement pour les chemins d’accès aux fichiers.</p>
+
+<p>Il y a 4 principaux modèles à connaître :</p>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">*.scss</code>: Le modèle <code class="language-plaintext highlighter-rouge">*</code> est un caractère de remplacement qui peut correspondre à n’importe quelle suite de caractères dans le répertoire courant. Dans ce cas, tous les fichiers terminant par <code class="language-plaintext highlighter-rouge">.scss</code> correspondront.</li>
+  <li><code class="language-plaintext highlighter-rouge">**/*.scss</code>: Le modèle <code class="language-plaintext highlighter-rouge">**/*</code> est un caractère de remplacement plus puissant que <code class="language-plaintext highlighter-rouge">*</code> qui peut correspondre à n’importe quelle suite de caractère dans le répertoire courant et ses descendants.</li>
+  <li><code class="language-plaintext highlighter-rouge">!not-me.scss</code>: Le modèle <code class="language-plaintext highlighter-rouge">!</code> indique l’exclusion du modèle suivant. Il permet d’exclure des résultats qui auraient autrement inclus par un modèle de caractère de remplacement. Dans ce cas, le fichier <code class="language-plaintext highlighter-rouge">not-me.scss</code> sera exclus du résultat.</li>
+  <li><code class="language-plaintext highlighter-rouge">*.+(sass|scss)</code>: Le modèle <code class="language-plaintext highlighter-rouge">+()</code> correspond à plusieurs modèles. Ils doivent être séparés par un caractère pipe <code class="language-plaintext highlighter-rouge">|</code>. Dans ce cas, tous les fichiers terminant par <code class="language-plaintext highlighter-rouge">.scss</code> ou <code class="language-plaintext highlighter-rouge">.sass</code> correspondront.</li>
+</ol>
+
+<p>Avec ces nouvelles connaissances, nous pouvons remplacer <code class="language-plaintext highlighter-rouge">'src/scss/main.scss'</code> par <code class="language-plaintext highlighter-rouge">'src/scss/**/*.scss'</code>
+pour traiter tous les fichiers scss contenus dans notre dossier scss et ses descendants.</p>
+
+<p>Remarque : si vous utilisez un glob plus générique comme <code class="language-plaintext highlighter-rouge">'src/**/*.scss'</code>, Gulp génèrera les fichiers appropriés, mais les imbriquera plus loin dans votre dossier css, vous donnant un résultat comme celui-ci :</p>
+
+<pre><code class="language-txt">  |- src
+      |- scss
+          |- main.scss
+      |- css
+          |- scss
+              |- main.css
+</code></pre>
+
+<p>Avant d’aller plus loin, il serait judicieux de sauvegarder les chemins que nous désirons pour notre application dans une constante, afin de pouvoir s’y référer plus tard.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kd">const</span> <span class="nx">PATHS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">HTML</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">SRC</span><span class="p">:</span> <span class="dl">'</span><span class="s1">./src/**/*.html</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">DEST</span><span class="p">:</span> <span class="dl">'</span><span class="s1">./dist</span><span class="dl">'</span>
+    <span class="p">},</span>
+    <span class="na">JS</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">SRC</span><span class="p">:</span> <span class="dl">'</span><span class="s1">./src/js/**/*.js</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">DEST</span><span class="p">:</span> <span class="dl">'</span><span class="s1">./dist/js</span><span class="dl">'</span>
+    <span class="p">},</span>
+    <span class="na">STYLE</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">SRC</span><span class="p">:</span> <span class="dl">'</span><span class="s1">./src/scss/**/*.scss</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">BUILD</span><span class="p">:</span> <span class="dl">'</span><span class="s1">./src/css/**/*.css</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">DEST</span><span class="p">:</span> <span class="dl">'</span><span class="s1">./src/css</span><span class="dl">'</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+</code></pre></div></div>
+
+<p>Pouvoir compiler nos fichiers scss à l’aide d’une simple commande comme <code class="language-plaintext highlighter-rouge">gulp style</code>, c’est bien, mais ce serait encore mieux de pouvoir le faire à chaque fois qu’un fichier change. Heureusement, Gulp peut gérer l’automatisation à l’aide d’un processus appelé <code class="language-plaintext highlighter-rouge">watch</code>.</p>
+
+<h4 id="surveillance">Surveillance</h4>
+
+<p>La méthode <a href="https://www.npmjs.com/package/gulp-watch" title="Informations officielles du paquet Gulp-Watch de NPM"><code class="language-plaintext highlighter-rouge">watch</code></a> incluse dans Gulp lui permet d’observer l’ensemble des fichiers spécifiés, et d’automatiquement exécuter une action à chaque fois que l’un de ces ficiers change. Cela va nous permettre de compiler automatiquement nos fichiers scss quand ils changeront, sans avoir à retaper la commande <code class="language-plaintext highlighter-rouge">gulp style</code> a chaque fois.</p>
+
+<p>La méthode <code class="language-plaintext highlighter-rouge">watch</code> s’utilise de la manière suivante :</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nx">gulp</span><span class="p">.</span><span class="nx">watch</span><span class="p">(</span><span class="nx">globs</span><span class="p">,</span> <span class="p">[</span><span class="nx">options</span><span class="p">],</span> <span class="p">[</span><span class="nx">task</span><span class="p">]);</span>
+</code></pre></div></div>
+
+<p>Il convient de noter que les options et la tâche sont toutes deux des paramètres optionnels, bien qu’il ne serait pas logique de regarder des fichiers sans vouloir déclencher une tâche lorsque quelque chose change.</p>
+
+<p>Dans notre cas, la fonction de surveillance ressemblera à cela :</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nx">gulp</span><span class="p">.</span><span class="nx">watch</span><span class="p">([</span><span class="dl">'</span><span class="s1">src/**/*.scss</span><span class="dl">'</span><span class="p">],</span> <span class="nx">sass</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Nous voulons l’envelopper dans une fonction d’observateur que nous appellerons en ligne de commande. Nous continueront de développer cette fonction dans ce tutoriel.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kd">let</span> <span class="nx">watch</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">gulp</span><span class="p">.</span><span class="nx">watch</span><span class="p">(</span><span class="nx">PATHS</span><span class="p">.</span><span class="nx">STYLE</span><span class="p">.</span><span class="nx">SRC</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">change</span><span class="dl">'</span><span class="p">,</span> <span class="nx">style</span><span class="p">);</span>
+  <span class="p">}</span>
+</code></pre></div></div>
+
+<p>Ceci étant fait, Gulp va maintenant recompiler notre css à chaque fois qu’un fichier <code class="language-plaintext highlighter-rouge">.scss</code> change.</p>
+
+<h4 id="traquer-les-changements">Traquer les changements</h4>
+
+<p>Cela peut ne pas sembler être le cas à ce stade, mais lorsque votre projet commence à prendre de la longueur, il devient plus difficile de savoir où un style spécifique est appliqué. Heureusement, nous pouvons utiliser <a href="https://www.npmjs.com/package/gulp-sourcemaps" title="Informations officielles du paquet gulp-sourcemaps de NPM">gulp-sourcemaps</a> pour remédier à ce problème.</p>
+
+<p>Ce plugin mettra en correspondance tous vos changements dans un fichier <code class="language-plaintext highlighter-rouge">.map</code> que l’inspecteur du navigateur pourra ensuite utiliser pour vous dire où un style spécifique a été appliqué.</p>
+
+<p>Il suffit de l’inclure dans notre projet et de l’injecter dans notre fonction de style.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kd">let</span> <span class="nx">sourcemaps</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">gulp-sourcemaps</span><span class="dl">'</span><span class="p">);</span>
+  <span class="kd">let</span> <span class="nx">style</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">gulp</span>
+      <span class="p">.</span><span class="nx">src</span><span class="p">(</span><span class="nx">PATHS</span><span class="p">.</span><span class="nx">STYLE</span><span class="p">.</span><span class="nx">SRC</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">sourcemaps</span><span class="p">.</span><span class="nx">init</span><span class="p">())</span>
+      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">sass</span><span class="p">())</span>
+      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">sourcemaps</span><span class="p">.</span><span class="nx">write</span><span class="p">())</span>
+      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="nx">PATHS</span><span class="p">.</span><span class="nx">STYLE</span><span class="p">.</span><span class="nx">DEST</span><span class="p">));</span>
+  <span class="p">}</span>
+</code></pre></div></div>
+
+<p>C’est bien beau tout ça, mais si on essayait de rafraîchir notre navigateur aussi, afin de pouvoir s’assurer que tout fonctionne correctement sans avoir a rafraîchir manuellement? Nous pouvons le faire grâce au plugin Browser Sync.</p>
+
+<h4 id="rafraîchissement-automatique-du-navigateur">Rafraîchissement automatique du navigateur</h4>
+
+<p><a href="https://www.browsersync.io/" title="Site officiel de Browser Sync">Browser Sync</a> nous permet de faire tourner un serveur local sur notre projet, ce qui nous permet de rafraîchir en direct la page de notre navigateur.</p>
+
+<p>La syntaxe pour inclure Browser Sync dans notre projet est légèrement différente :</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kd">let</span> <span class="nx">browserSync</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">browser-sync</span><span class="dl">'</span><span class="p">).</span><span class="nx">create</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>Une fois que Browser Sync est inclus dans notre projet, nous pouvons l’initialiser au début de notre fonction <code class="language-plaintext highlighter-rouge">watch()</code></p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nx">browserSync</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
+    <span class="c1">// You can tell browserSync to use this directory and serve it as a mini-server</span>
+    <span class="na">server</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">baseDir</span><span class="p">:</span> <span class="dl">'</span><span class="s1">./src</span><span class="dl">'</span>
+    <span class="p">}</span>
+    <span class="c1">// If you are already serving your website locally using something like apache</span>
+    <span class="c1">// You can use the proxy setting to proxy that instead</span>
+    <span class="nl">proxy</span><span class="p">:</span> <span class="dl">'</span><span class="s1">yourlocal.dev</span><span class="dl">'</span>
+  <span class="p">});</span>
+</code></pre></div></div>
+
+<p>L’option baseDir indique à BrowserSync le répertoire à surveiller, assurez-vous que tous les fichiers produits sont contenus dans ce répertoire ou Browser Sync ne pourra pas les détecter.</p>
+
+<p>Remarque : si vous utilisez déjà un serveur local via apache par exemple, vous pouvez régler l’option proxy pour que Browser Sync sache quelle adresse recharger automatiquement.</p>
+
+<p>Écrivons maintenant une fonction pour rafraîchir la page du navigateur. Nous n’exposerons pas cette fonction puisqu’elle sera uniquement interne au processus de Gulp.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kd">let</span> <span class="nx">reload</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">browserSync</span><span class="p">.</span><span class="nx">reload</span><span class="p">();</span>
+  <span class="p">}</span>
+</code></pre></div></div>
+
+<p>Nous allons également ajouter la fonction <code class="language-plaintext highlighter-rouge">browserSync.stream()</code> à notre fonction de style afin que, plutôt que de rafraîchir la page, le nouveau css soit injecté dans la session en cours.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kd">let</span> <span class="nx">style</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">gulp</span>
+      <span class="p">.</span><span class="nx">src</span><span class="p">(</span><span class="nx">PATHS</span><span class="p">.</span><span class="nx">STYLE</span><span class="p">.</span><span class="nx">SRC</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">sourcemaps</span><span class="p">.</span><span class="nx">init</span><span class="p">())</span>
+      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">sass</span><span class="p">())</span>
+      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">sourcemaps</span><span class="p">.</span><span class="nx">write</span><span class="p">())</span>
+      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="nx">PATHS</span><span class="p">.</span><span class="nx">STYLE</span><span class="p">.</span><span class="nx">DEST</span><span class="p">))</span>
+      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">browserSync</span><span class="p">.</span><span class="nx">stream</span><span class="p">());</span>
+  <span class="p">}</span>
+</code></pre></div></div>
+
+<p>En appelant la fonction <code class="language-plaintext highlighter-rouge">reload()</code> à la fin de notre fonction de surveillance, nous nous assurons qu’après le traitement de nos modifications, la page du navigateur sera rechargée.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nx">gulp</span><span class="p">.</span><span class="nx">watch</span><span class="p">([</span><span class="nx">PATHS</span><span class="p">.</span><span class="nx">HTML</span><span class="p">.</span><span class="nx">SRC</span><span class="p">,</span> <span class="nx">PATHS</span><span class="p">.</span><span class="nx">JS</span><span class="p">.</span><span class="nx">SRC</span><span class="p">]).</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">change</span><span class="dl">'</span><span class="p">,</span> <span class="nx">reload</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>À ce stade, votre gulpfile.js devrait ressembler à ceci :</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kd">let</span> <span class="nx">gulp</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">gulp</span><span class="dl">'</span><span class="p">),</span>
+      <span class="nx">sass</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">gulp-sass</span><span class="dl">'</span><span class="p">),</span>
+      <span class="nx">sourcemaps</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">gulp-sourcemaps</span><span class="dl">'</span><span class="p">),</span>
+      <span class="nx">browserSync</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">browser-sync</span><span class="dl">'</span><span class="p">).</span><span class="nx">create</span><span class="p">();</span>
+
+  <span class="kd">const</span> <span class="nx">PATHS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">HTML</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">SRC</span><span class="p">:</span> <span class="dl">'</span><span class="s1">./src/**/*.html</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">DEST</span><span class="p">:</span> <span class="dl">'</span><span class="s1">./dist</span><span class="dl">'</span>
+    <span class="p">},</span>
+    <span class="na">JS</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">SRC</span><span class="p">:</span> <span class="dl">'</span><span class="s1">./src/js/**/*.js</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">DEST</span><span class="p">:</span> <span class="dl">'</span><span class="s1">./dist/js</span><span class="dl">'</span>
+    <span class="p">},</span>
+    <span class="na">STYLE</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">SRC</span><span class="p">:</span> <span class="dl">'</span><span class="s1">./src/scss/**/*.scss</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">BUILD</span><span class="p">:</span> <span class="dl">'</span><span class="s1">./src/css/**/*.css</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">DEST</span><span class="p">:</span> <span class="dl">'</span><span class="s1">./src/css</span><span class="dl">'</span>
+    <span class="p">},</span>
+  <span class="p">}</span>
+
+  <span class="kd">let</span> <span class="nx">style</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">gulp</span>
+      <span class="p">.</span><span class="nx">src</span><span class="p">(</span><span class="nx">PATHS</span><span class="p">.</span><span class="nx">STYLE</span><span class="p">.</span><span class="nx">SRC</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">sourcemaps</span><span class="p">.</span><span class="nx">init</span><span class="p">())</span>
+      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">sass</span><span class="p">())</span>
+      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">sourcemaps</span><span class="p">.</span><span class="nx">write</span><span class="p">())</span>
+      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="nx">PATHS</span><span class="p">.</span><span class="nx">STYLE</span><span class="p">.</span><span class="nx">DEST</span><span class="p">))</span>
+      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">browserSync</span><span class="p">.</span><span class="nx">stream</span><span class="p">());</span>
+  <span class="p">}</span>
+
+  <span class="kd">let</span> <span class="nx">reload</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">browserSync</span><span class="p">.</span><span class="nx">reload</span><span class="p">();</span>
+  <span class="p">}</span>
+
+  <span class="kd">let</span> <span class="nx">watch</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">browserSync</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
+      <span class="na">server</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">baseDir</span><span class="p">:</span> <span class="dl">'</span><span class="s1">./src</span><span class="dl">'</span>
+      <span class="p">}</span>
+    <span class="p">});</span>
+    <span class="nx">gulp</span><span class="p">.</span><span class="nx">watch</span><span class="p">(</span><span class="nx">PATHS</span><span class="p">.</span><span class="nx">STYLE</span><span class="p">.</span><span class="nx">SRC</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">change</span><span class="dl">'</span><span class="p">,</span> <span class="nx">style</span><span class="p">);</span>
+    <span class="nx">gulp</span><span class="p">.</span><span class="nx">watch</span><span class="p">(</span><span class="nx">PATHS</span><span class="p">.</span><span class="nx">HTML</span><span class="p">.</span><span class="nx">SRC</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">change</span><span class="dl">'</span><span class="p">,</span> <span class="nx">reload</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="nx">exports</span><span class="p">.</span><span class="nx">watch</span> <span class="o">=</span> <span class="nx">watch</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>Remarque : Je n’exporte plus la fonction <code class="language-plaintext highlighter-rouge">style()</code> puisque la fonction <code class="language-plaintext highlighter-rouge">watch()</code> s’en occupe toute seule.</p>
+
+<p>De là, nous avons un répertoire de développement fonctionnel qui nous permettra de travailler sans avoir à nous soucier de la mise à jour constante de nos fichiers et de la fenêtre du navigateur. Mais qu’en est-il lorsque nous avons terminé, et que noussommes prêts à déployer notre application ?</p>
+
+<h3 id="étape-6-déploiement-du-css-pour-production">Étape 6: Déploiement du CSS pour production</h3>
+
+<p>À ce stade, notre dossier src peut contenir un grand nombre de fichiers css et js différents, dispersés dans plusieurs branches de l’arbre. En outre, ces fichiers peuvent être assez volumineux pour des projets complexes.</p>
+
+<h4 id="concaténer-les-fichiers-de-sortie-en-un">Concaténer les fichiers de sortie en un</h4>
+
+<p>Pour commencer, nous voulons réduire le nombre d’appels au serveur. Pour cela, nous allons concaténer nos fichiers en quelques uns avec le plugin <a href="https://www.npmjs.com/package/gulp-useref" title="Informations officielles du paquet gul-useref de NPM">useref</a>.</p>
+
+<p>Pour pouvoir fonctionner, useref lit des commentaires html spécifiques pour savoir quels fichiers il doit concaténer, dans quel ordre, et dans quel fichier de sortie.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="c">&lt;!-- build:[type] [destination file] --&gt;</span>
+  <span class="nt">&lt;link</span><span class="err">|</span><span class="na">script</span><span class="nt">&gt;</span>   <span class="c">&lt;!-- first file to concatenate --&gt;</span>
+  <span class="nt">&lt;link</span><span class="err">|</span><span class="na">script</span><span class="nt">&gt;</span>   <span class="c">&lt;!-- second file to concatenate --&gt;</span>
+  <span class="c">&lt;!-- endbuild --&gt;</span>
+</code></pre></div></div>
+
+<p>Le terme <code class="language-plaintext highlighter-rouge">[type]</code> indique à useref le type de fichier dont il s’agit. Il peut s’agir de <code class="language-plaintext highlighter-rouge">css</code>, <code class="language-plaintext highlighter-rouge">js</code>, ou <code class="language-plaintext highlighter-rouge">remove</code>. Le terme <code class="language-plaintext highlighter-rouge">remove</code> indique à useref que le bloc peut être ignoré.</p>
+
+<p>Maintenant, écrivons une tâche <code class="language-plaintext highlighter-rouge">deploy()</code> pour useref.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kd">let</span> <span class="nx">useref</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">gulp-useref</span><span class="dl">'</span><span class="p">);</span>
+
+  <span class="kd">let</span> <span class="nx">deploy</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">gulp</span>
+      <span class="p">.</span><span class="nx">src</span><span class="p">(</span><span class="nx">PATHS</span><span class="p">.</span><span class="nx">HTML</span><span class="p">.</span><span class="nx">SRC</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">useref</span><span class="p">())</span>
+      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="nx">PATHS</span><span class="p">.</span><span class="nx">HTML</span><span class="p">.</span><span class="nx">DEST</span><span class="p">));</span>
+  <span class="p">}</span>
+
+  <span class="nx">exports</span><span class="p">.</span><span class="nx">deploy</span> <span class="o">=</span> <span class="nx">deploy</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>Nous devons également ajouter les commentaires nécessaires dans notre fichier index.html.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="c">&lt;!-- build:css css/main.min.css --&gt;</span>
+  <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"css/main.css"</span><span class="nt">&gt;</span>
+  <span class="c">&lt;!-- endbuild --&gt;</span>
+</code></pre></div></div>
+
+<p>Nous pouvons maintenant exécuter la commande suivante dans la ligne de commande pour concaténer nos fichiers.</p>
+
+<pre><code class="language-txt">  gulp deploy
+</code></pre>
+
+<p>Nous pouvons maintenant voir que notre dossier dist est une réplique de notre dossier src, sauf que notre dossier css contient maintenant un fichier <code class="language-plaintext highlighter-rouge">main.min.css</code> au lieu de <code class="language-plaintext highlighter-rouge">main.css</code> et le fichier index.html contient maintenant ce qui suit au lieu des 3 lignes que nous avions auparavant.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"css/main.min.css"</span><span class="nt">&gt;</span>
+</code></pre></div></div>
+
+<p>Notre dossier <code class="language-plaintext highlighter-rouge">src/css</code> contient du css agréable et lisible par l’homme, mais ce n’est pas ce que nous voulons mettre en production, un tel code est bon pour le développement mais nous avons besoin de quelque chose qui se charge plus rapidement et qui soit compatible avec tous les navigateurs pour notre environnement de production, c’est là que le postcss entre en jeu.</p>
+
+<h4 id="optimiser-le-css-avec-postcss">Optimiser le CSS avec PostCSS</h4>
+
+<p>Le plugin <a href="https://github.com/postcss/gulp-postcss" title="Projet github officiel de gulp-postcss">postcss</a> nous permet de traiter davantage nos fichiers css compilés en :</p>
+
+<ul>
+  <li>supprimant les styles inutilisés avec uncss,</li>
+  <li>minifiant le css produit avec cssnano,</li>
+  <li>etc …</li>
+</ul>
+
+<p>Insérons postcss dans notre fonction de déploiement. Pour ce faire, nous devons également utiliser le plugin <a href="https://www.npmjs.com/package/gulp-if" title="Informations officielles du paquet gulp-if de NPM"><code class="language-plaintext highlighter-rouge">gulp-if</code></a> pour nous assurer que seuls les fichiers css seront exécutés par postcss.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kd">let</span> <span class="nx">postcss</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">gulp-postcss</span><span class="dl">'</span><span class="p">);</span>
+  <span class="kd">let</span> <span class="nx">gulpif</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">gulp-if</span><span class="dl">'</span><span class="p">)</span>
+  <span class="kd">let</span> <span class="nx">deploy</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">gulp</span>
+      <span class="p">.</span><span class="nx">src</span><span class="p">(</span><span class="nx">PATHS</span><span class="p">.</span><span class="nx">HTML</span><span class="p">.</span><span class="nx">SRC</span><span class="p">,</span> <span class="p">{</span><span class="na">allowEmpty</span><span class="p">:</span> <span class="kc">true</span><span class="p">})</span>
+      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">useref</span><span class="p">())</span>
+      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulpif</span><span class="p">(</span><span class="dl">'</span><span class="s1">**/*.css</span><span class="dl">'</span><span class="p">,</span> <span class="nx">postcss</span><span class="p">([</span> <span class="p">])))</span>
+      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="nx">PATHS</span><span class="p">.</span><span class="nx">HTML</span><span class="p">.</span><span class="nx">DEST</span><span class="p">));</span>
+  <span class="p">}</span>
+</code></pre></div></div>
+
+<p>Vous pouvez voir que nous passons un ensemble de paramètres à postcss, c’est là que nous appellerons les différents sous-plugins que nous allons utiliser dans postcss.</p>
+
+<h4 id="éliminer-le-css-non-utilisé">Éliminer le CSS non utilisé</h4>
+
+<p>Nous allons utiliser <a href="https://www.npmjs.com/package/postcss-uncss" title="Informations officielles du paquet postcss-uncss de NPM">uncss</a> pour supprimer toute classe css qui n’est pas utilisée dans le cadre de notre projet.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kd">let</span> <span class="nx">uncss</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">postcss-uncss</span><span class="dl">'</span><span class="p">);</span>
+  <span class="kd">let</span> <span class="nx">deploy</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">gulp</span>
+      <span class="p">.</span><span class="nx">src</span><span class="p">(</span><span class="nx">PATHS</span><span class="p">.</span><span class="nx">HTML</span><span class="p">.</span><span class="nx">SRC</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">useref</span><span class="p">())</span>
+      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulpif</span><span class="p">(</span><span class="dl">'</span><span class="s1">./**/*.css</span><span class="dl">'</span><span class="p">,</span> <span class="nx">postcss</span><span class="p">([</span>
+        <span class="nx">uncss</span><span class="p">({</span>
+          <span class="na">html</span><span class="p">:</span> <span class="nx">PATHS</span><span class="p">.</span><span class="nx">HTML</span><span class="p">.</span><span class="nx">SRC</span><span class="p">,</span>
+          <span class="na">ignore</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">.ignore-me</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">.hidden</span><span class="dl">'</span><span class="p">]</span>
+        <span class="p">})</span>
+      <span class="p">])))</span>
+      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="nx">PATHS</span><span class="p">.</span><span class="nx">HTML</span><span class="p">.</span><span class="nx">DEST</span><span class="p">));</span>
+  <span class="p">}</span>
+</code></pre></div></div>
+
+<p>Vous pouvez voir que nous avons passé un objet comme paramètre à uncss :</p>
+
+<ul>
+  <li>Le paramètre html est la liste des fichiers html à examiner pour trouver les classes inutilisées. Heureusement, nous pouvons utiliser des globs ici.</li>
+  <li>Le paramètre ignore est une liste de noms de classes que nous voulons conserver, même si elles ne sont pas utilisées. Il est utile pour les classes que nous ne pouvons indiquer qu’avec du JavaScript, par exemple.</li>
+</ul>
+
+<h4 id="minifier-le-css-produit">Minifier le CSS produit</h4>
+
+<p>Maintenant que tout css inutilisé a été supprimé, nous devons réduire le css produit, pour diminuer le temps de chargement de la page. Pour cela, nous utilisons <a href="https://cssnano.co/" title="Site officiel de CSSnano">cssnano</a>.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kd">let</span> <span class="nx">cssnano</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">cssnano</span><span class="dl">'</span><span class="p">);</span>
+  <span class="kd">let</span> <span class="nx">deploy</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">gulp</span>
+      <span class="p">.</span><span class="nx">src</span><span class="p">(</span><span class="nx">PATHS</span><span class="p">.</span><span class="nx">HTML</span><span class="p">.</span><span class="nx">SRC</span><span class="p">,</span> <span class="p">{</span><span class="na">allowEmpty</span><span class="p">:</span> <span class="kc">true</span><span class="p">})</span>
+      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">useref</span><span class="p">())</span>
+      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulpif</span><span class="p">(</span><span class="dl">'</span><span class="s1">**/*.css</span><span class="dl">'</span><span class="p">,</span> <span class="nx">postcss</span><span class="p">([</span>
+        <span class="nx">uncss</span><span class="p">({</span>
+          <span class="na">html</span><span class="p">:</span> <span class="nx">PATHS</span><span class="p">.</span><span class="nx">HTML</span><span class="p">.</span><span class="nx">SRC</span><span class="p">,</span>
+          <span class="na">ignore</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">.ignore-me</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">.hidden</span><span class="dl">'</span><span class="p">]</span>
+        <span class="p">}),</span>
+        <span class="nx">cssnano</span><span class="p">()</span>
+      <span class="p">])))</span>
+      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="nx">PATHS</span><span class="p">.</span><span class="nx">HTML</span><span class="p">.</span><span class="nx">DEST</span><span class="p">));</span>
+  <span class="p">}</span>
+</code></pre></div></div>
+
+<p>Remarque : si tous vos fichiers html ne se trouvent pas dans le même dossier, useref risque de ne pas réussir à concaténer correctement vos fichiers css et js. En outre, uncss provoquera des erreurs et ne parviendra pas à accomplir sa tâche. Si votre projet nécessite une structure plus complexe, vous devrez peut-être trouver une autre solution pour remédier à ce problème.</p>
+
+<h3 id="étape-7-minifier-javascript">Étape 7: Minifier JavaScript</h3>
+
+<p>Maintenant que nous sommes en mesure de produire un css propre et minifié, nous devons faire de même avec JavaScript. Heureusement, le processus est beaucoup plus simple dans ce cas, nous avons juste une étape de minification. Nous allons l’implémenter dans la fonction de déploiement avec <a href="https://www.npmjs.com/package/gulp-uglify" title="Informations officielles sur le paquet gulp-uglify de NPM">uglify</a>.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kd">let</span> <span class="nx">uglify</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">gulp-uglify</span><span class="dl">'</span><span class="p">);</span>
+  <span class="kd">let</span> <span class="nx">deploy</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">gulp</span>
+      <span class="p">.</span><span class="nx">src</span><span class="p">(</span><span class="nx">PATHS</span><span class="p">.</span><span class="nx">HTML</span><span class="p">.</span><span class="nx">SRC</span><span class="p">,</span> <span class="p">{</span><span class="na">allowEmpty</span><span class="p">:</span> <span class="kc">true</span><span class="p">})</span>
+      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">useref</span><span class="p">())</span>
+      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulpif</span><span class="p">(</span><span class="dl">'</span><span class="s1">**/*.css</span><span class="dl">'</span><span class="p">,</span> <span class="nx">postcss</span><span class="p">([</span>
+        <span class="nx">uncss</span><span class="p">({</span>
+          <span class="na">html</span><span class="p">:</span> <span class="nx">PATHS</span><span class="p">.</span><span class="nx">HTML</span><span class="p">.</span><span class="nx">SRC</span><span class="p">,</span>
+          <span class="na">ignore</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">.ignore-me</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">.hidden</span><span class="dl">'</span><span class="p">]</span>
+        <span class="p">}),</span>
+        <span class="nx">cssnano</span><span class="p">()</span>
+      <span class="p">])))</span>
+      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulpif</span><span class="p">(</span><span class="nx">PATHS</span><span class="p">.</span><span class="nx">JS</span><span class="p">.</span><span class="nx">SRC</span><span class="p">,</span> <span class="nx">uglify</span><span class="p">()))</span>
+      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="nx">PATHS</span><span class="p">.</span><span class="nx">HTML</span><span class="p">.</span><span class="nx">DEST</span><span class="p">));</span>
+  <span class="p">}</span>
+  <span class="kd">let</span> <span class="nx">watch</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">browserSync</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
+      <span class="na">server</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">baseDir</span><span class="p">:</span> <span class="dl">'</span><span class="s1">./src</span><span class="dl">'</span>
+    <span class="p">}</span>
+  <span class="p">});</span>
+  <span class="nx">gulp</span><span class="p">.</span><span class="nx">watch</span><span class="p">(</span><span class="nx">PATHS</span><span class="p">.</span><span class="nx">STYLE</span><span class="p">.</span><span class="nx">SRC</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">change</span><span class="dl">'</span><span class="p">,</span> <span class="nx">style</span><span class="p">);</span>
+  <span class="nx">gulp</span><span class="p">.</span><span class="nx">watch</span><span class="p">([</span><span class="nx">PATHS</span><span class="p">.</span><span class="nx">JS</span><span class="p">.</span><span class="nx">SRC</span><span class="p">,</span> <span class="nx">PATHS</span><span class="p">.</span><span class="nx">HTML</span><span class="p">.</span><span class="nx">SRC</span><span class="p">,</span> <span class="nx">PATHS</span><span class="p">.</span><span class="nx">STYLE</span><span class="p">.</span><span class="nx">BUILD</span><span class="p">],</span> <span class="nx">gulp</span><span class="p">.</span><span class="nx">parallel</span><span class="p">(</span><span class="nx">reload</span><span class="p">,</span> <span class="nx">deploy</span><span class="p">));</span>
+  <span class="p">}</span>
+</code></pre></div></div>
+
+<p>Maintenant que nous avons pu générer tous les fichiers que nous voulions, nous devons nous assurer que nous ne les conservons pas une fois que nous n’en avons plus besoin. Ce processus s’appelle le nettoyage.</p>
+
+<h3 id="étape-8-sassurer-de-ne-pas-garder-de-fichier-indésirable">Étape 8: S’assurer de ne pas garder de fichier indésirable</h3>
+
+<p>L’étape du nettoyage est la plus importante de notre flux de travail. En effet, elle permet de garantir l’intégrité de notre programme. Paradoxalement, même si c’est la dernière étape que je présente, c’est en fait la première étape du flux de travail.</p>
+
+<p>Nous devons nous assurer, avant de générer quoi que ce soit, que le répertoire de destination est vide, de cette façon, nous pouvons être sûrs que la sortie que nous obtiendrons sera le résultat de notre travail et non un résidu de travaux antérieurs qui peuvent ou non avoir été réalisés par d’autres.</p>
+
+<p>Pour automatiser cette étape, nous allons utiliser le plugin <a href="https://www.npmjs.com/package/del" title="Informations officielles sur le paquet del de NPM">del</a>.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kd">let</span> <span class="nx">del</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">del</span><span class="dl">'</span><span class="p">);</span>
+  <span class="kd">let</span> <span class="nx">clean</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">del</span><span class="p">([</span><span class="nx">PATHS</span><span class="p">.</span><span class="nx">HTML</span><span class="p">.</span><span class="nx">DEST</span><span class="p">,</span> <span class="nx">PATHS</span><span class="p">.</span><span class="nx">STYLE</span><span class="p">.</span><span class="nx">DEST</span><span class="p">,</span> <span class="nx">PATHS</span><span class="p">.</span><span class="nx">JS</span><span class="p">.</span><span class="nx">DEST</span><span class="p">],</span> <span class="p">{</span><span class="na">allowEmpty</span><span class="p">:</span> <span class="kc">true</span><span class="p">});</span>
+  <span class="p">}</span>
+</code></pre></div></div>
+
+<p>Insérons maintenant les fonctions de déploiement et de nettoyage dans le flux de travail. Pour cela, nous allons déplacer la fonction Browser Sync init dans sa propre fonction.</p>
+
+<p>En fin de compte, votre gulpfile.js devrait maintenant ressembler à cela :</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kd">let</span> <span class="nx">gulp</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">gulp</span><span class="dl">'</span><span class="p">),</span>
+      <span class="nx">sass</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">gulp-sass</span><span class="dl">'</span><span class="p">),</span>
+      <span class="nx">sourcemaps</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">gulp-sourcemaps</span><span class="dl">'</span><span class="p">),</span>
+      <span class="nx">useref</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">gulp-useref</span><span class="dl">'</span><span class="p">),</span>
+      <span class="nx">gulpif</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">gulp-if</span><span class="dl">'</span><span class="p">),</span>
+      <span class="nx">postcss</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">gulp-postcss</span><span class="dl">'</span><span class="p">),</span>
+      <span class="nx">uncss</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">postcss-uncss</span><span class="dl">'</span><span class="p">),</span>
+      <span class="nx">cssnano</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">cssnano</span><span class="dl">'</span><span class="p">),</span>
+      <span class="nx">uglify</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">gulp-uglify</span><span class="dl">'</span><span class="p">),</span>
+      <span class="nx">del</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">del</span><span class="dl">'</span><span class="p">),</span>
+      <span class="nx">browserSync</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">browser-sync</span><span class="dl">'</span><span class="p">).</span><span class="nx">create</span><span class="p">();</span>
+
+  <span class="kd">const</span> <span class="nx">PATHS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">HTML</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">SRC</span><span class="p">:</span> <span class="dl">'</span><span class="s1">./src/**/*.html</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">DEST</span><span class="p">:</span> <span class="dl">'</span><span class="s1">./dist</span><span class="dl">'</span>
+    <span class="p">},</span>
+    <span class="na">JS</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">SRC</span><span class="p">:</span> <span class="dl">'</span><span class="s1">./src/js/**/*.js</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">DEST</span><span class="p">:</span> <span class="dl">'</span><span class="s1">./dist/js</span><span class="dl">'</span>
+    <span class="p">},</span>
+    <span class="na">STYLE</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">SRC</span><span class="p">:</span> <span class="dl">'</span><span class="s1">./src/scss/**/*.scss</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">BUILD</span><span class="p">:</span> <span class="dl">'</span><span class="s1">./src/css/**/*.css</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">DEST</span><span class="p">:</span> <span class="dl">'</span><span class="s1">./src/css</span><span class="dl">'</span>
+    <span class="p">},</span>
+  <span class="p">}</span>
+
+  <span class="kd">let</span> <span class="nx">init</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">browserSync</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
+      <span class="na">server</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">baseDir</span><span class="p">:</span> <span class="dl">'</span><span class="s1">./src</span><span class="dl">'</span>
+      <span class="p">}</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+
+  <span class="kd">let</span> <span class="nx">reload</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">browserSync</span><span class="p">.</span><span class="nx">reload</span><span class="p">();</span>
+  <span class="p">}</span>
+
+  <span class="kd">let</span> <span class="nx">clean</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">del</span><span class="p">([</span><span class="nx">PATHS</span><span class="p">.</span><span class="nx">HTML</span><span class="p">.</span><span class="nx">DEST</span><span class="p">,</span> <span class="nx">PATHS</span><span class="p">.</span><span class="nx">STYLE</span><span class="p">.</span><span class="nx">DEST</span><span class="p">,</span> <span class="nx">PATHS</span><span class="p">.</span><span class="nx">JS</span><span class="p">.</span><span class="nx">DEST</span><span class="p">],</span> <span class="p">{</span><span class="na">allowEmpty</span><span class="p">:</span> <span class="kc">true</span><span class="p">});</span>
+  <span class="p">}</span>
+
+  <span class="kd">let</span> <span class="nx">style</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">gulp</span>
+      <span class="p">.</span><span class="nx">src</span><span class="p">(</span><span class="nx">PATHS</span><span class="p">.</span><span class="nx">STYLE</span><span class="p">.</span><span class="nx">SRC</span><span class="p">,</span> <span class="p">{</span><span class="na">allowEmpty</span><span class="p">:</span> <span class="kc">true</span><span class="p">})</span>
+      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">sourcemaps</span><span class="p">.</span><span class="nx">init</span><span class="p">())</span>
+      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">sass</span><span class="p">())</span>
+      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">sourcemaps</span><span class="p">.</span><span class="nx">write</span><span class="p">())</span>
+      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="nx">PATHS</span><span class="p">.</span><span class="nx">STYLE</span><span class="p">.</span><span class="nx">DEST</span><span class="p">))</span>
+      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">browserSync</span><span class="p">.</span><span class="nx">stream</span><span class="p">());</span>
+  <span class="p">}</span>
+
+  <span class="kd">let</span> <span class="nx">deploy</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">gulp</span>
+      <span class="p">.</span><span class="nx">src</span><span class="p">(</span><span class="nx">PATHS</span><span class="p">.</span><span class="nx">HTML</span><span class="p">.</span><span class="nx">SRC</span><span class="p">,</span> <span class="p">{</span><span class="na">allowEmpty</span><span class="p">:</span> <span class="kc">true</span><span class="p">})</span>
+      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">useref</span><span class="p">())</span>
+      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulpif</span><span class="p">(</span><span class="dl">'</span><span class="s1">**/*.css</span><span class="dl">'</span><span class="p">,</span> <span class="nx">postcss</span><span class="p">([</span>
+        <span class="nx">uncss</span><span class="p">({</span>
+          <span class="na">html</span><span class="p">:</span> <span class="nx">PATHS</span><span class="p">.</span><span class="nx">HTML</span><span class="p">.</span><span class="nx">SRC</span><span class="p">,</span>
+          <span class="na">ignore</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">.ignore-me</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">.hidden</span><span class="dl">'</span><span class="p">]</span>
+        <span class="p">}),</span>
+        <span class="nx">cssnano</span><span class="p">()</span>
+        <span class="p">])))</span>
+      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulpif</span><span class="p">(</span><span class="nx">PATHS</span><span class="p">.</span><span class="nx">JS</span><span class="p">.</span><span class="nx">SRC</span><span class="p">,</span> <span class="nx">uglify</span><span class="p">()))</span>
+      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="nx">PATHS</span><span class="p">.</span><span class="nx">HTML</span><span class="p">.</span><span class="nx">DEST</span><span class="p">));</span>
+  <span class="p">}</span>
+
+  <span class="kd">let</span> <span class="nx">watch</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">gulp</span><span class="p">.</span><span class="nx">watch</span><span class="p">(</span><span class="nx">PATHS</span><span class="p">.</span><span class="nx">STYLE</span><span class="p">.</span><span class="nx">SRC</span><span class="p">,</span> <span class="nx">style</span><span class="p">);</span>
+    <span class="nx">gulp</span><span class="p">.</span><span class="nx">watch</span><span class="p">([</span><span class="nx">PATHS</span><span class="p">.</span><span class="nx">JS</span><span class="p">.</span><span class="nx">SRC</span><span class="p">,</span> <span class="nx">PATHS</span><span class="p">.</span><span class="nx">HTML</span><span class="p">.</span><span class="nx">SRC</span><span class="p">,</span> <span class="nx">PATHS</span><span class="p">.</span><span class="nx">STYLE</span><span class="p">.</span><span class="nx">BUILD</span><span class="p">],</span> <span class="nx">reload</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="kd">let</span> <span class="nx">dev</span> <span class="o">=</span> <span class="nx">gulp</span><span class="p">.</span><span class="nx">series</span><span class="p">(</span><span class="nx">clean</span><span class="p">,</span> <span class="nx">gulp</span><span class="p">.</span><span class="nx">parallel</span><span class="p">(</span><span class="nx">init</span><span class="p">,</span> <span class="nx">style</span><span class="p">,</span> <span class="nx">watch</span><span class="p">));</span>
+  <span class="kd">let</span> <span class="nx">build</span> <span class="o">=</span> <span class="nx">gulp</span><span class="p">.</span><span class="nx">series</span><span class="p">(</span><span class="nx">clean</span><span class="p">,</span> <span class="nx">deploy</span><span class="p">);</span>
+
+  <span class="nx">exports</span><span class="p">.</span><span class="nx">dev</span> <span class="o">=</span> <span class="nx">dev</span><span class="p">;</span>
+  <span class="nx">exports</span><span class="p">.</span><span class="nx">build</span> <span class="o">=</span> <span class="nx">build</span><span class="p">;</span>
+
+  <span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="dl">'</span><span class="s1">default</span><span class="dl">'</span><span class="p">,</span> <span class="nx">dev</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Avec ce tutoriel, nous avons franchi quelques étapes simples pour mettre en place un workflow Gulp qui nous permet de développer nos projets web sans avoir à constamment recharger notre navigateur web et à compiler nos fichiers sass (ou less). Nous avons également créé une tâche build pour produire des fichiers prêts pour la production. Bien que cela puisse sembler beaucoup, c’est en fait minime comparé à tout ce que Gulp est capable de faire pour nous.</p>
+
+<p>J’espère que vous vous sentez maintenant plus à l’aise avec Gulp et que vous êtes prêt à explorer par vous-même les innombrables possibilités qu’offre Gulp grâce à ses nombreux plugins disponibles.</p>
+
+<p>Si vous pensez que j’ai fait une erreur, veuillez me le faire savoir dans les commentaires ci-dessous ou <a href="/contact/" title="contact me">me contacter</a>, afin que je puisse m’assurer de régler ces problèmes.</p>
+
+
+	</div><div itemprop="comment">
+			<div id="disqus_thread"></div>
+			<script>
+				/**
+				*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+				*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+
+				var disqus_config = function () {
+					this.page.url = '/fr/posts/streamline-your-web-development-with-gulp/'
+					this.page.identifier = 'streamline-your-web-development-with-gulp'
+				};
+				(function() { // DON'T EDIT BELOW THIS LINE
+					var d = document, s = d.createElement('script');
+					s.src = 'https://silvereh.disqus.com/embed.js';
+					s.setAttribute('data-timestamp', +new Date());
+					(d.head || d.body).appendChild(s);
+				})();
+			</script>
+			<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+		</div></article>
+
+		</main>
+	</body>
+</html>

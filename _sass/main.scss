@@ -1,0 +1,68 @@
+@import './partials/functions';
+@import './partials/mixins';
+@import './partials/variables';
+
+@import url(https://fonts.googleapis.com/css2?family=Roboto&family=Roboto+Condensed:wght@700&display=swap);
+
+body {
+  background-color: $offwhite;
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 18px;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+section {
+  min-height: 98vh;
+
+  &:last-of-type {
+    margin-bottom: 75px;
+
+    @include media-breakpoint-up(md) {
+      margin-bottom: 15px;
+    }
+  }
+}
+
+h1, h2, h3 {
+  color: $gold;
+}
+
+.hidden-xs {
+	@include media-breakpoint-down(sm) {
+		display: none;
+	}
+}
+
+.sr-only {
+	@include sr-only;
+}
+
+.highlighter-rouge {
+  pre {
+    padding: 10px;
+  }
+}
+
+.container {
+  margin-bottom: 80px;
+
+  @include media-breakpoint-up(sm) {
+    padding-left: 90px;
+  }
+}
+
+.img-responsive {
+  max-width: 100%;
+}
+
+@import './partials/icons';
+@import './partials/nav';
+@import './partials/portfolio';
+@import './partials/post';

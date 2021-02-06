@@ -1,0 +1,30 @@
+.post {
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: auto;
+	grid-template-areas: 
+		"thumb"
+		"summary";
+
+	&-meta {
+	  font-size: 90%;
+	  font-style: italic;
+	  font-weight: bold;
+	  text-align: right;
+	}
+
+	&-summary {
+		grid-area: summary;
+	}
+
+	&-thumb {
+		grid-area: thumb;
+	}
+}
+
+@include media-breakpoint-up(md) {
+	.post {
+		grid-template-columns: 1fr 1fr;
+		grid-template-areas: "summary thumb";
+	}
+}

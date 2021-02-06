@@ -1,0 +1,24 @@
+---
+layout: default
+---
+{{ content }}
+
+{%- assign posts=site.posts | where: "lang", page.lang -%}
+{%- for post in posts -%}
+	{%- if post.lang == page.lang -%}
+		<a class="Portfolio-article" href="{{ post.url | prepend: site.url }}">
+			<h3 class="Portfolio-article-title">{{ post.title }}</h3>
+			<p class="Portfolio-article-tech">
+				{%- for tag in post.tags -%}
+					{%- if tag == post.tags.first -%}
+						{{ tag }}
+					{%- else -%}
+						{{ tag | prepend:', ') }}
+					{%- endif -%}
+				{%- endfor -%}
+			</p>
+			<img class="Portfolio-article-thumb img-responsive" src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_960_720.jpg" />
+			<p class="Portfolio-article-summary">{{ post.summary }}</p>
+		</a>
+	{%- endif -%}
+{%- endfor -%}
