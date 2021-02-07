@@ -14,7 +14,7 @@ layout: null
 		{%- for post in site.categories.fr -%}
 			<item>
 				<title>{{ post.title }}</title>
-				<description>Thumb:{{ post.thumbnail | prepend: site.url }}<br/>Tags:{%- for tag in post.tags -%}{%- if tag == post.tags.first -%}{{ tag }}{%- else -%}{{ tag | prepend:', ') }}{%- endif -%}{%- endfor -%}<br/>Descr:{{ post.summary }}</description>
+				<description>{{ post.thumbnail | prepend: site.url }}><{%- for tag in post.tags -%}{%- if tag == post.tags.first -%}{{ tag }}{%- else -%}{{ tag | prepend:', ') }}{%- endif -%}{%- endfor -%}><{{ post.summary }}</description>
 				<link>{{ post.url | prepend: site.url }}</link>
 				<guid isPermaLink="true">{{ site.url }}{{ post.url }}</guid>
 				<pubDate>{{ post.date | date_to_rfc822 }}</pubDate>
